@@ -19,6 +19,7 @@ Filter results to focus on furniture and large objects.
 Tools:
 YOLOv5 (PyTorch or TensorFlow). 
 https://docs.ultralytics.com/yolov5/quickstart_tutorial/ 
+https://www.kaggle.com/datasets/jhoward/lsun_bedroom
 Pre-trained weights for generic objects (e.g., "sofa," "table," "chair").
 Deliverable: A list of detected objects and their bounding boxes in room images.
 
