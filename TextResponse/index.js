@@ -17,16 +17,25 @@ function fileToGenerativePart(path, mimeType) {
   };
 }
 
+const input = "";
+
 const prompt = "What's the best way to organize a space with one bed, a dresser, two chairs, and a desk?";
 
 
-// Block over time
+// const imagePart = fileToGenerativePart(
+//   `${mediaPath}/jetpack.jpg`,
+//   "image/jpeg",
+// );
+// const result = await model.generateContent([prompt, imagePart]);
+
+
 const result = await model.generateContentStream([prompt]);
+
+// Block over time
 for await (const chunk of result.stream){
     const chunkText = chunk.text();
     console.log(chunkText);
 }
 
 // Full block @ one time
-// const result = await model.generateContent([prompt]);
 // console.log(result.response.text());
