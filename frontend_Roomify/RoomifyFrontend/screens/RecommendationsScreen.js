@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
-const BACKEND_URL = 'http://10.138.234.66:5001'; // Replace with your actual backend URL
+const BACKEND_URL = 'http://127.0.0.1:5001'; // Replace with your actual backend URL
 
 const ExpandableCard = ({ title, icon, content }) => {
   const [expanded, setExpanded] = useState(false);
@@ -85,32 +85,30 @@ const RecommendationsScreen = ({ route }) => {
 
   const saveToDatabase = async () => {
     setIsSaving(true);
-
+  
     try {
       const formData = new FormData();
-
+  
       images.forEach((image, index) => {
         formData.append('images', {
           uri: image.uri,
-          type: 'image/jpeg',
+          type: 'image/jpeg', // Use correct MIME type
           name: `image_${index}.jpg`,
         });
       });
-
-      formData.append('recommendations', recommendations);
-
-      const response = await fetch(`${BACKEND_URL}/save-room`, {
+  
+      const response = await fetch(`${BACKEND_URL}/api/items`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
         body: formData,
+        headers: {
+          'Accept': 'application/json', // Ensure backend returns JSON
+        },
       });
-
+  
       const data = await response.json();
       console.log('Save response:', data);
-
-      if (data.success) {
+  
+      if (data.status === 'success') {
         Alert.alert('Success', 'Room data saved successfully!');
       } else {
         throw new Error(data.message || 'Failed to save room data.');
@@ -122,6 +120,9 @@ const RecommendationsScreen = ({ route }) => {
       setIsSaving(false);
     }
   };
+  
+  
+
 
   return (
     <SafeAreaView style={styles.container}>
