@@ -26,7 +26,7 @@ const inputFileName = "input.jpg"; // Input file name   -> make it
 const inputPath = path.join(mediaPath, inputFileName); // Resolve full file path
 const mimeType = "image/jpg"; // Ensure correct MIME type for the file
 
-const prior = ["productivity", "spaciousness"];
+const prior = ["productivity", "spaciousness", "aesthetics", "storage & organization"];
 let i = 0; // change this with a dropdown menu
 
 const prompt = "Give me a list of the large objects in this room and then tell me how I should organize them to prioritize " + prior[i];
