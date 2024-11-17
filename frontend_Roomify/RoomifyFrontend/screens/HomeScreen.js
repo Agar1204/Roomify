@@ -58,11 +58,10 @@ const HomeScreen = ({ navigation }) => {
 
       const base64Images = await Promise.all(imagePromises);
 
-      // Updated request body format for Gemini API
       const requestBody = {
         contents: [{
           parts: [
-            { text: "You are an interior design expert. Please analyze these room images and provide: 1) A brief overview of the current style and feel 2) Specific recommendations for improvement in these categories: Layout, Furniture, Lighting, Color/Decor 3) A summary of the potential impact these changes would make. If the images are not of interior spaces, please kindly request interior room photos instead." },
+            { text: "You are an interior design expert. Please analyze these room images and provide: 1) A brief overview of the current style and feel 2) Specific recommendations for improvement in these categories: Layout, Furniture, Lighting, Color/Decor 3) A summary of the potential impact these changes would make. 4) Give me a list of the large objects in this room and then tell me how I should organize them to prioritize productivity 5)What can I purchase to add to this space? If the images are not of interior spaces, please kindly request interior room photos instead. DO NOT MARK EVERYTHING WITH ASTERISKS" },
             ...base64Images.map(base64 => ({
               inline_data: {
                 mime_type: "image/jpeg",
@@ -98,10 +97,9 @@ const HomeScreen = ({ navigation }) => {
       const data = await response.json();
       console.log('Gemini API response:', data);
 
-      // In generateRecommendations function:
       navigation.navigate('Recommendations', {
         recommendations: data.candidates?.[0]?.content?.parts?.[0]?.text || 'No recommendations available',
-        images: selectedImages // Pass the selected images
+        images: selectedImages
       });
 
     } catch (error) {
@@ -163,6 +161,16 @@ const HomeScreen = ({ navigation }) => {
           )}
         </TouchableOpacity>
       </View>
+
+      {/* View Saved Rooms Button */}
+      <View style={styles.savedRoomsContainer}>
+        <TouchableOpacity
+          style={styles.savedRoomsButton}
+          onPress={() => navigation.navigate('SavedRoomsScreen')}
+        >
+          <Text style={styles.savedRoomsText}>View Saved Rooms</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -175,11 +183,14 @@ const styles = StyleSheet.create({
   imageContainer: { position: 'relative', marginRight: 10 },
   imageThumbnail: { width: 100, height: 100, borderRadius: 8 },
   removeButton: { position: 'absolute', right: -5, top: -5, backgroundColor: '#FF4444', borderRadius: 12 },
-  buttonContainer: { flexDirection: 'row', justifyContent: 'space-between' },
-  addButton: { backgroundColor: '#007BFF', padding: 15, borderRadius: 10, alignItems: 'center' },
-  generateButton: { backgroundColor: '#28A745', padding: 15, borderRadius: 10, alignItems: 'center' },
+  buttonContainer: { flexDirection: 'column', alignItems: 'center', marginBottom: 20 },
+  addButton: { backgroundColor: '#007BFF', padding: 15, borderRadius: 10, alignItems: 'center', width: '100%', marginBottom: 20, },
+  generateButton: { backgroundColor: '#28A745', padding: 15, borderRadius: 10, alignItems: 'center', width: '100%' },
   buttonText: { color: '#FFF', fontWeight: 'bold' },
   emptyText: { color: '#888', textAlign: 'center', marginTop: 10 },
+  savedRoomsContainer: { position: 'absolute', bottom: 20, left: 20, right: 20 },
+  savedRoomsButton: { backgroundColor: '#e50000', padding: 15, borderRadius: 10, alignItems: 'center' },
+  savedRoomsText: { color: '#FFF', fontWeight: 'bold' },
 });
 
 export default HomeScreen;

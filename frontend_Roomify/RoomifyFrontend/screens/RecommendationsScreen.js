@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
-const BACKEND_URL = 'http://127.0.0.1:5001'; // Replace with your actual backend URL
+const BACKEND_URL = 'http://10.141.84.212:5001'; // Replace with your actual backend URL
 
 const ExpandableCard = ({ title, icon, content }) => {
   const [expanded, setExpanded] = useState(false);
@@ -71,7 +71,7 @@ const RecommendationsScreen = ({ route }) => {
       'Layout': 'Consider rearranging furniture to create better flow...',
       'Furniture': 'Add a comfortable accent chair in the corner...',
       'Lighting': 'Install indirect lighting under cabinets...',
-      'Color & Decor': 'Introduce warm earth tones through accessories...'
+      'Color & Decor': 'Introduce warm earth tones through accessories...',
     };
     return sections[category] || 'No specific recommendations available.';
   };
@@ -80,7 +80,7 @@ const RecommendationsScreen = ({ route }) => {
     { title: 'Layout', icon: 'grid-on' },
     { title: 'Furniture', icon: 'chair' },
     { title: 'Lighting', icon: 'lightbulb-outline' },
-    { title: 'Color & Decor', icon: 'palette' }
+    { title: 'Color & Decor', icon: 'palette' },
   ];
 
   const saveToDatabase = async () => {
