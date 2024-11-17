@@ -1,41 +1,43 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import fs from 'fs';
-import dotenv from 'dotenv';
+import fs from "fs";
+import path from "path";
+import dotenv from "dotenv";
 
-// Load environment variables from .env file
+// Load environment variables
 dotenv.config();
 
 const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-function fileToGenerativePart(path, mimeType) {
+function fileToGenerativePart(filePath, mimeType) {
+  if (!fs.existsSync(filePath)) {
+    throw new Error(`File does not exist at the specified path: ${filePath}`);
+  }
   return {
     inlineData: {
-      data: Buffer.from(fs.readFileSync(path)).toString("base64"),
+      data: fs.readFileSync(filePath).toString("base64"),
       mimeType,
     },
   };
 }
 
-const input = "";
+const mediaPath = process.env.MEDIA_PATH || './'; // Define base path for media
+const inputFileName = "input.jpg"; // Input file name   -> make it 
+const inputPath = path.join(mediaPath, inputFileName); // Resolve full file path
+const mimeType = "image/jpg"; // Ensure correct MIME type for the file
 
-const prompt = "What's the best way to organize a space with one bed, a dresser, two chairs, and a desk?";
+const prior = ["productivity", "spaciousness"];
+let i = 0; // change this with a dropdown menu
 
+const prompt = "Give me a list of the large objects in this room and then tell me how I should organize them to prioritize " + prior[i];
 
-// const imagePart = fileToGenerativePart(
-//   `${mediaPath}/jetpack.jpg`,
-//   "image/jpeg",
-// );
-// const result = await model.generateContent([prompt, imagePart]);
-
-
-const result = await model.generateContentStream([prompt]);
-
-// Block over time
-for await (const chunk of result.stream){
-    const chunkText = chunk.text();
-    console.log(chunkText);
+try {
+  const imagePart = fileToGenerativePart(inputPath, mimeType);
+  
+  (async () => {
+    const result = await model.generateContent([prompt, imagePart]);
+    console.log(result.response.text());
+  })();
+} catch (error) {
+  console.error("Error:", error.message);
 }
-
-// Full block @ one time
-// console.log(result.response.text());
