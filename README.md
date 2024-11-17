@@ -14,7 +14,7 @@ What It Does
       Aesthetics: Suggestions for a visually harmonious and stylish room.
       Storage & Organization: Tips for better storage solutions and organizational hacks.
 
-3.Save Rooms: The app keeps an inventory of all past rooms and saves them to a database, allowing the user to access all their past rooms at any given time!
+3. Save Rooms: The app keeps an inventory of all past rooms and saves them to a database, allowing the user to access all their past rooms at any given time!
 
 How We Built It
   Frontend: Developed using React Native with Expo Go, ensuring a smooth, responsive interface for mobile users.
