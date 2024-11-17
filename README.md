@@ -21,6 +21,9 @@ What It Does
 How We Built It
   
   Frontend: Developed using React Native with Expo Go, ensuring a smooth, responsive interface for mobile users.
+  
   Backend: Built with Flask, handling image processing, furniture recognition, and database management.
+  
   AI and Data Handling: Leveraged Python for object detection and analysis. Results were processed using JSON for efficient data communication between the front and backend.
+  
   Database: Managed with SQLAlchemy to store room configurations and user preferences.
