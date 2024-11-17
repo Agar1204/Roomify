@@ -10,7 +10,7 @@ import {
   ActivityIndicator 
 } from 'react-native';
 
-const BACKEND_URL = 'http://10.141.84.212:5001'; // Replace with your backend URL
+const BACKEND_URL = 'http://10.141.84.212:5001';
 
 const SavedRoomsScreen = ({ navigation }) => {
   const [rooms, setRooms] = useState([]);
