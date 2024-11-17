@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { 
-  View, 
-  Text, 
-  StyleSheet, 
-  TouchableOpacity, 
-  Image, 
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
   FlatList,
-  ActivityIndicator 
+  ActivityIndicator
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
@@ -62,7 +62,7 @@ const HomeScreen = ({ navigation }) => {
       const requestBody = {
         contents: [{
           parts: [
-            { text: "Please analyze these room images and provide recommendations for improvement. Consider aspects like layout, furniture placement, lighting, and decor." },
+            { text: "You are an interior design expert. Please analyze these room images and provide: 1) A brief overview of the current style and feel 2) Specific recommendations for improvement in these categories: Layout, Furniture, Lighting, Color/Decor 3) A summary of the potential impact these changes would make. If the images are not of interior spaces, please kindly request interior room photos instead." },
             ...base64Images.map(base64 => ({
               inline_data: {
                 mime_type: "image/jpeg",
@@ -98,8 +98,10 @@ const HomeScreen = ({ navigation }) => {
       const data = await response.json();
       console.log('Gemini API response:', data);
 
-      navigation.navigate('Recommendations', { 
-        recommendations: data.candidates?.[0]?.content?.parts?.[0]?.text || 'No recommendations available' 
+      // In generateRecommendations function:
+      navigation.navigate('Recommendations', {
+        recommendations: data.candidates?.[0]?.content?.parts?.[0]?.text || 'No recommendations available',
+        images: selectedImages // Pass the selected images
       });
 
     } catch (error) {
@@ -113,10 +115,10 @@ const HomeScreen = ({ navigation }) => {
   const renderImage = ({ item }) => (
     <View style={styles.imageContainer}>
       <Image source={{ uri: item.uri }} style={styles.imageThumbnail} />
-      <TouchableOpacity 
+      <TouchableOpacity
         style={styles.removeButton}
         onPress={() => {
-          setSelectedImages(current => 
+          setSelectedImages(current =>
             current.filter(img => img.uri !== item.uri)
           );
         }}
